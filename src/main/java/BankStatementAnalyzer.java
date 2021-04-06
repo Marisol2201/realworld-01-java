@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
@@ -22,9 +23,11 @@ public class BankStatementAnalyzer {
     public static void collectSummary(BankStatementProcessor bankStatementProcessor) {
         System.out.println("Total = " + bankStatementProcessor.calculateTotal());
         System.out.println("January Total = " + bankStatementProcessor.calculateTotalForMonth(Month.JANUARY));
-        System.out.println("January Total = " + bankStatementProcessor.calculateTotalForMonth(Month.FEBRUARY));
-
+        System.out.println("February Total = " + bankStatementProcessor.calculateTotalForMonth(Month.FEBRUARY));
         System.out.println("Total salary received is " + bankStatementProcessor.calculateForCategory("Salary"));
 
+        System.out.println("Max Transaction is " + bankStatementProcessor.calculateMaxTransaction(LocalDate.MIN, LocalDate.MAX));
+        System.out.println("Min Transaction is " + bankStatementProcessor.calculateMinTransaction(LocalDate.MIN, LocalDate.MAX));
+        System.out.println("Month's transactions: " + bankStatementProcessor.GroupByMonthOrByDescription(Month.FEBRUARY));
     }
 }

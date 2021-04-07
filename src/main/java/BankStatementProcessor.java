@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BankStatementProcessor {
@@ -24,7 +25,6 @@ public class BankStatementProcessor {
             if (transaction.getDate().getMonth() == month) {
                 total += transaction.getAmount();
             }
-
         }
         return total;
     }
@@ -35,29 +35,26 @@ public class BankStatementProcessor {
             if (transaction.getDescription().equals(category)) {
                 total += transaction.getAmount();
             }
-
         }
         return total;
     }
 
-    public double calculateMaxTransaction(LocalDate dateInitial, LocalDate dateFinal) {
-        double max = 0d;
-
-        if (dateInitial.isBefore(dateFinal)) {
-            for (BankTransaction transaction : bankTransactions) {
+    public double calculateMaxTransaction(Month month) {
+        double max = -100000;
+        for (BankTransaction transaction : bankTransactions) {
+            if (transaction.getDate().getMonth().equals(month)) {
                 if (transaction.getAmount() > max) {
                     max = transaction.getAmount();
                 }
             }
         }
         return max;
-    };
+    }
 
-    public double calculateMinTransaction(LocalDate dateInitial, LocalDate dateFinal) {
-        double min = 0d;
-
-        if (dateInitial.isBefore(dateFinal)) {
-            for (BankTransaction transaction : bankTransactions) {
+    public double calculateMinTransaction(Month month) {
+        double min = 100000;
+        for (BankTransaction transaction : bankTransactions) {
+            if (transaction.getDate().getMonth().equals(month)) {
                 if (transaction.getAmount() < min) {
                     min = transaction.getAmount();
                 }
@@ -66,13 +63,13 @@ public class BankStatementProcessor {
         return min;
     }
 
-    public double GroupByMonthOrByDescription(Month month) {
-
+    public List<BankTransaction> GroupByMonthOrByDescription(Month month, String description) {
+        List<BankTransaction> result = new ArrayList<>();
         for (BankTransaction transaction : bankTransactions) {
-            if ((transaction.getDate().getMonth() == month)) {
-                System.out.println(transaction);
+            if (transaction.getDate().getMonth().equals(month) && transaction.getDescription().equals(description)) {
+                result.add(transaction);
             }
         }
-        return(bankTransactions.size() - 2);
+        return result;
     }
 }

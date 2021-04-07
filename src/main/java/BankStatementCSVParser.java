@@ -6,7 +6,7 @@ import java.util.List;
 public class BankStatementCSVParser implements BankStatementParser {
     private final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    public BankTransaction parseFromCsv(final String line) {
+    public BankTransaction parseFromString(final String line) {
         String[] columns = line.split(",");
 
         LocalDate date = LocalDate.parse(columns[0], DATE_PATTERN);
@@ -16,10 +16,10 @@ public class BankStatementCSVParser implements BankStatementParser {
         return new BankTransaction(date, amount, description);
     }
 
-    public List<BankTransaction> parseLinesFromCsv(final List<String> lines) {
+    public List<BankTransaction> parseLines(final List<String> lines) {
         List<BankTransaction> bankTransactions = new ArrayList<>();
         for (String line : lines) {
-            bankTransactions.add(parseFromCsv(line));
+            bankTransactions.add(parseFromString(line));
         }
 
         return bankTransactions;
